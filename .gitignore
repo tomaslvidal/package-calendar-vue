@@ -21,3 +21,4 @@ yarn-error.log*
 *.sw?
 *.zip
 package-lock.json
+node_modules/color-name/.eslintrc.json
