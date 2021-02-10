@@ -58,8 +58,8 @@ module.exports = {
         new VueLoaderPlugin(),
         new MiniCssExtractPlugin(
             {
-              filename: 'assets/css/[name].[contenthash:8].css',
-              chunkFilename: 'assets/css/[name].[contenthash:8].css'
+              filename: "assets/css/styles.css",
+              chunkFilename: "assets/css/styles.css"
             }
         )
     ]
