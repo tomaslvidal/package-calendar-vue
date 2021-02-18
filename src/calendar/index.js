@@ -10,5 +10,6 @@ Vue.config.devtools = true;
 
 new Vue({
     el: '#calendar',
+    store,
     render: h => h(App)
 });

@@ -22,8 +22,8 @@
                                         :key="key"
                                         class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
                                         :class="attr.customData.class"
+                                        v-html="attr.customData.title"
                                     >
-                                        {{ attr.customData.title }}
                                     </p>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                 masks: {
                     weekdays: 'WWW',
                 },
-                attributes: [
+                attributes2: [
                     {
                         key: 1,
                         customData: {
@@ -128,18 +128,36 @@
             };
         },
         created(){
-            console.log("x: ", date.getMonth() + 6);
+            this.$store.dispatch('Home/GET_RESERVATIONS');
         },
         computed: {
             max_date(){
                 let date = new Date();
 
-                // date.setMonth(date.getMonth() + 6);
+                date.setMonth(date.getMonth() + 6);
 
                 return date;
             },
             min_date(){
                 return new Date();
+            },
+            attributes(){
+                return this.$store.state.Home.data.reservations.map((item, key) => {
+                    return {
+                        key: key + 1,
+                        customData: {
+                            title: `
+                                ${item.nombre_empresa} (${item.id_agencia})
+
+                                <br>
+
+                                ${item.paxs}
+                            `,
+                            class: 'bg-blue-500 text-white',
+                        },
+                        dates: new Date(item.fecha_salida)
+                    }
+                });
             }
         }
     }
