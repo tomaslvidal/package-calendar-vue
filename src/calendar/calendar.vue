@@ -1,134 +1,54 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="calendario d-flex justify-content-center align-items-center">
-                <div class="text-center section">
-                    <v-calendar
-                        class="custom-calendar max-w-full"
-                        :masks="masks"
-                        :attributes="attributes"
-                        :min-date="min_date"
-                        :max-date="max_date"
+            <div class="d-flex">
+                <v-calendar
+                    :attributes="attributes"
+                    :min-date="min_date"
+                    :max-date="max_date"
+                >
+                    <template
+                        slot="day-popover"
+                        slot-scope="{ day, dayTitle, attributes }"
                     >
-                        <template v-slot:day-content="{ day, attributes }">
-                            <div class="flex flex-col h-full z-10 overflow-hidden">
-                                <span class="day-label text-sm text-gray-900">
-                                    {{ day.day }}
-                                </span>
+                        <div class="text-xs text-gray-300 font-semibold text-center">
+                        {{ dayTitle }}
+                        </div>
 
-                                <div class="flex-grow overflow-y-auto overflow-x-auto">
-                                    <p
-                                        v-for="(attr, key) in attributes"
-                                        :key="key"
-                                        class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
-                                        :class="attr.customData.class"
-                                        v-html="attr.customData.title"
-                                    >
-                                    </p>
-                                </div>
-                            </div>
-                        </template>
-                    </v-calendar>
-                </div>
+                        <ul>
+                            <li
+                                v-for="{key, customData} in attributes"
+                                :key="key"
+                                v-html="customData.html"
+                            >
+                            </li>
+                        </ul>
+                    </template>
+                </v-calendar>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import Calendar from 'v-calendar/lib/components/calendar.umd'
+    import Calendar from 'v-calendar/lib/components/calendar.umd';
 
     export default {
         components: {
             'v-calendar': Calendar
         },
-        data() {
-            const month = new Date().getMonth();
-
-            const year = new Date().getFullYear();
-
-            return {
-                masks: {
-                    weekdays: 'WWW',
-                },
-                attributes2: [
-                    {
-                        key: 1,
-                        customData: {
-                            title: 'Lunch with mom.',
-                            class: 'bg-red-600 text-white',
-                        },
-                        dates: new Date(year, month, 1),
-                    },
-                    {
-                        key: 2,
-                        customData: {
-                            title: 'Take Noah to basketball practice',
-                            class: 'bg-blue-500 text-white',
-                        },
-                        dates: new Date(year, month, 2),
-                    },
-                    {
-                        key: 3,
-                        customData: {
-                            title: "Noah's basketball game.",
-                            class: 'bg-blue-500 text-white',
-                        },
-                        dates: new Date(year, month, 5),
-                    },
-                    {
-                        key: 4,
-                        customData: {
-                            title: 'Take car to the shop',
-                            class: 'bg-indigo-500 text-white',
-                        },
-                        dates: new Date(year, month, 5),
-                    },
-                    {
-                        key: 4,
-                        customData: {
-                            title: 'Meeting with new client.',
-                            class: 'bg-teal-500 text-white',
-                        },
-                        dates: new Date(year, month, 7),
-                    },
-                    {
-                        key: 5,
-                        customData: {
-                            title: "Mia's gymnastics practice.",
-                            class: 'bg-pink-500 text-white',
-                        },
-                        dates: new Date(year, month, 11),
-                    },
-                    {
-                        key: 6,
-                        customData: {
-                            title: 'Cookout with friends.',
-                            class: 'bg-orange-500 text-white',
-                        },
-                        dates: { months: 5, ordinalWeekdays: { 2: 1 } },
-                    },
-                    {
-                        key: 7,
-                        customData: {
-                            title: "Mia's gymnastics recital.",
-                            class: 'bg-pink-500 text-white',
-                        },
-                        dates: new Date(year, month, 22),
-                    },
-                    {
-                        key: 8,
-                        customData: {
-                            title: 'Visit great grandma.',
-                            class: 'bg-red-600 text-white',
-                        },
-                        dates: new Date(year, month, 25),
-                    }
-                ],
-            };
-        },
         created(){
             this.$store.dispatch('Home/GET_RESERVATIONS');
+        },
+        beforeCreate(){
+            console.log("x: ", 'this: ', this, 'window: ', window);
+        },
+        methods:{
+            randomColor(){
+                let items = ['bg-red', 'bg-bluee', 'bg-green'];
+
+                return items[Math.floor(Math.random() * items.length)];
+            }
         },
         computed: {
             max_date(){
@@ -146,16 +66,41 @@
                     return {
                         key: key + 1,
                         customData: {
-                            title: `
-                                ${item.nombre_empresa} (${item.id_agencia})
+                            html: `
+                                <div style="display: flex; align-items: center; font-size: 11px; margin-top: 2px; flex-direction: column;">
+                                    <b style="padding-right: 5px;">
+                                        Código de Reserva:
+                                    </b>
+                                    
+                                    <span style="color: #e05b5b;">
+                                        ${item.pnrcode}
+                                    </span>
 
-                                <br>
+                                    <b style="padding-right: 5px;">
+                                        Empresa:
+                                    </b>
+                                    
+                                    <span style="color: #e05b5b;">
+                                        ${item.nombre_empresa} (${item.id_agencia})
+                                    </span>
 
-                                ${item.paxs}
-                            `,
-                            class: 'bg-blue-500 text-white',
+                                    <b style="padding-right: 5px;">
+                                        Pasajeros:
+                                    </b>
+                                    
+                                    <span style="color: #e05b5b;">
+                                        ${item.paxs}
+                                    </span>
+                                </div>
+                            `
                         },
-                        dates: new Date(item.fecha_salida)
+                        dot: {
+                            color: 'red'
+                        },
+                        dates: new Date(item.fecha_salida),
+                        popover: {
+                            visibility: 'click'
+                        }
                     }
                 });
             }

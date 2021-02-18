@@ -17,7 +17,7 @@ export default {
                 ajax.reservations = axios.CancelToken.source();
 
                 axios({
-                    url: 'https://consolid.eviajes.online/admin/empresas/get_reservations.php',
+                    url: window.link_calendar,
                     method: 'POST',
                     cancelToken: ajax.reservations.token,
                     headers: {
