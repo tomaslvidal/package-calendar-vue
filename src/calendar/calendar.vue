@@ -1,33 +1,28 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="d-flex">
-                <v-calendar
+    <v-calendar
                     :attributes="attributes"
                     :min-date="min_date"
                     :max-date="max_date"
+                    is-expanded
                 >
-                    <template
-                        slot="day-popover"
-                        slot-scope="{ day, dayTitle, attributes }"
-                    >
-                        <div class="text-xs text-gray-300 font-semibold text-center">
-                        {{ dayTitle }}
-                        </div>
-
-                        <ul>
-                            <li
-                                v-for="{key, customData} in attributes"
-                                :key="key"
-                                v-html="customData.html"
-                            >
-                            </li>
-                        </ul>
-                    </template>
-                </v-calendar>
+        <template
+            slot="day-popover"
+            slot-scope="{ day, dayTitle, attributes }"
+        >
+            <div class="text-xs text-gray-300 font-semibold text-center">
+            {{ dayTitle }}
             </div>
-        </div>
-    </div>
+
+            <ul>
+                <li
+                    v-for="{key, customData} in attributes"
+                    :key="key"
+                    v-html="customData.html"
+                >
+                </li>
+            </ul>
+        </template>
+    </v-calendar>
 </template>
 
 <script>
@@ -39,9 +34,6 @@
         },
         created(){
             this.$store.dispatch('Home/GET_RESERVATIONS');
-        },
-        beforeCreate(){
-            console.log("x: ", 'this: ', this, 'window: ', window);
         },
         methods:{
             randomColor(){
@@ -67,12 +59,12 @@
                         key: key + 1,
                         customData: {
                             html: `
-                                <div style="display: flex; align-items: center; font-size: 11px; margin-top: 2px; flex-direction: column;">
+                                <div style="display: flex; align-items: center; font-size: 12px; margin-top: 2px; flex-direction: column;">
                                     <b style="padding-right: 5px;">
                                         Código de Reserva:
                                     </b>
                                     
-                                    <span style="color: #e05b5b;">
+                                    <span style="color: #45d879d4;">
                                         ${item.pnrcode}
                                     </span>
 
@@ -80,7 +72,7 @@
                                         Empresa:
                                     </b>
                                     
-                                    <span style="color: #e05b5b;">
+                                    <span style="color: #45d879d4;">
                                         ${item.nombre_empresa} (${item.id_agencia})
                                     </span>
 
@@ -88,14 +80,14 @@
                                         Pasajeros:
                                     </b>
                                     
-                                    <span style="color: #e05b5b;">
+                                    <span style="color: #45d879d4;">
                                         ${item.paxs}
                                     </span>
                                 </div>
                             `
                         },
                         dot: {
-                            color: 'red'
+                            color: 'green'
                         },
                         dates: new Date(item.fecha_salida),
                         popover: {
