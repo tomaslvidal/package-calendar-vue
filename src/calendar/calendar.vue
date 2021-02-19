@@ -59,7 +59,7 @@
                         key: key + 1,
                         customData: {
                             html: `
-                                <div style="display: flex; align-items: center; font-size: 12px; margin-top: 2px; flex-direction: column;">
+                                <div style="display: flex; align-items: center; font-size: 13px; margin-top: 2px; flex-direction: column;">
                                     <b style="padding-right: 5px;">
                                         Código de Reserva:
                                     </b>
