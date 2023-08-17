@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 export default {
-    SET_RESERVATIONS(state, payload){
-        state.data.reservations = payload;
+    SET_ITEM(state, payload){
+        state.data.items = payload;
     }
 };

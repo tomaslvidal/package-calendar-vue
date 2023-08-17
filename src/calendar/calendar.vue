@@ -33,7 +33,7 @@
             'v-calendar': Calendar
         },
         created(){
-            this.$store.dispatch('Home/GET_RESERVATIONS');
+            this.$store.dispatch('Home/GET_ITEMS');
         },
         methods:{
             randomColor(){
@@ -54,34 +54,18 @@
                 return new Date();
             },
             attributes(){
-                return this.$store.state.Home.data.reservations.map((item, key) => {
+                return this.$store.state.Home.data.items.map((item, key) => {
                     return {
                         key: key + 1,
                         customData: {
                             html: `
                                 <div style="display: flex; align-items: center; font-size: 13px; margin-top: 2px; flex-direction: column;">
                                     <b style="padding-right: 5px;">
-                                        Código de Reserva:
+                                        ${item.title}:
                                     </b>
                                     
                                     <span style="color: #45d879d4;">
-                                        ${item.pnrcode}
-                                    </span>
-
-                                    <b style="padding-right: 5px;">
-                                        Empresa:
-                                    </b>
-                                    
-                                    <span style="color: #45d879d4;">
-                                        ${item.nombre_empresa} (${item.id_agencia})
-                                    </span>
-
-                                    <b style="padding-right: 5px;">
-                                        Pasajeros:
-                                    </b>
-                                    
-                                    <span style="color: #45d879d4;">
-                                        ${item.paxs}
+                                        ${item.description}
                                     </span>
                                 </div>
                             `

@@ -9,7 +9,7 @@ const ajax = {
 };
 
 export default {
-    GET_RESERVATIONS(context, payload){
+    GET_ITEMS(context, payload){
         return new Promise((resolve, reject) => {
             try {
                 (typeof ajax.reservations.token !== "undefined") ? ajax.reservations.cancel() : null;
@@ -17,7 +17,7 @@ export default {
                 ajax.reservations = axios.CancelToken.source();
 
                 axios({
-                    url: window.link_calendar,
+                    url: window.link_get_data,
                     method: 'POST',
                     cancelToken: ajax.reservations.token,
                     headers: {
@@ -28,7 +28,7 @@ export default {
                 })
                 .then(res => res.data)
                 .then(res => {
-                    context.commit('SET_RESERVATIONS', res);
+                    context.commit('SET_ITEM', res);
 
                     resolve(true);
                 })

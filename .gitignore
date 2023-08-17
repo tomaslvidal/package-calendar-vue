@@ -19,5 +19,6 @@ yarn-error.log*
 *.sln
 *.sw?
 *.zip
+dist
 package-lock.json
 node_modules
